@@ -1,0 +1,178 @@
+/* Sidebar container */
+#hypeless-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 260px;
+  max-width: 500px;
+  min-width: 180px;
+  height: 100%;
+  background: #f9f9f9;
+  border-left: 2px solid #ccc;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #222;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  overflow: auto;
+  resize: none; /* disable native handle */
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  #hypeless-sidebar {
+    background: #222;
+    color: #eee;
+    border-left: 2px solid #444;
+  }
+}
+
+/* Collapsed state */
+#hypeless-sidebar.collapsed {
+  transform: translateX(100%);
+}
+
+/* Sidebar header */
+#hypeless-header {
+  background: #ddd;
+  padding: 8px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (prefers-color-scheme: dark) {
+  #hypeless-header {
+    background: #333;
+  }
+}
+
+/* Sidebar content */
+#hypeless-content {
+  flex: 1;
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.hypeless-item {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.hypeless-item:hover {
+  background: rgba(255, 200, 0, 0.3);
+}
+
+/* Floating reopen button */
+#hypeless-float-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999999;
+  padding: 8px 12px;
+  background: #ffca28;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+}
+#hypeless-float-btn:hover {
+  background: #ffc107;
+}
+
+/* Highlighted text */
+.hypeless-highlight {
+  background: yellow;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.hypeless-highlight.hypeless-preview {
+  background: orange;
+}
+.hypeless-highlight.hypeless-focus {
+  background: red;
+}
+
+/* Tooltip */
+#hypeless-tooltip {
+  position: absolute;
+  background: #333;
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: none;
+  z-index: 999999;
+  pointer-events: none;
+  max-width: 240px;
+}
+@media (prefers-color-scheme: dark) {
+  #hypeless-tooltip {
+    background: #eee;
+    color: #222;
+  }
+}
+
+/* Help popup */
+#hypeless-help-popup {
+  display: none;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  padding: 10px;
+  font-size: 13px;
+  background: #fff;
+  border: 1px solid #ccc;
+  z-index: 999999;
+}
+#hypeless-help-popup.visible {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  #hypeless-help-popup {
+    background: #222;
+    border: 1px solid #444;
+    color: #eee;
+  }
+}
+
+/* --- Custom resizer handle --- */
+#hypeless-resizer {
+  position: absolute;
+  left: -6px;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  cursor: ew-resize;
+  background: #ddd;
+  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#hypeless-resizer::after {
+  content: '⋮';
+  writing-mode: vertical-rl;
+  font-size: 12px;
+  color: #666;
+}
+@media (prefers-color-scheme: dark) {
+  #hypeless-resizer {
+    background: #333;
+    border-left: 1px solid #444;
+    border-right: 1px solid #444;
+  }
+  #hypeless-resizer::after {
+    color: #aaa;
+  }
+}
+
+#hypeless-sidebar.resizing,
+#hypeless-sidebar.resizing * {
+  cursor: ew-resize !important;
+  user-select: none !important;
+}
