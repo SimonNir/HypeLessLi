@@ -3,6 +3,8 @@
 HypeLessLi helps you critically read scientific texts by highlighting hype-like, subjective, promotional, and vague terms in **yellow**.  
 It also provides a **collapsible sidebar** with explanations, counts, and navigation through all occurrences.
 
+NOTE: This is primarily the development side; for the most reliable public code, refer to the published version at https://zenodo.org/records/16814574 
+
 ---
 
 ## Installation (from `HypeLessLi.zip`)
@@ -117,6 +119,11 @@ HypeLessLi has been updated with the following improvements over the original ve
 - Term list and exceptions can be expanded in `terms.js`.
 
 ---
+
+## Authors
+Dr. Xhoela Bame, Dr. Gjylije Hoti, Dr. Adibe Kingsley Mbachu, Dr. Vasilis Nikolaou, Simon Nirenberg, Klara Krmpotic, Dr. Christian Kuttner, Dr. Sudha Shankar (in alphabetical order)
+
+The Li is short for Lindau, as the idea was born out of a workshop at the 74th Lindau Nobel Laureate Meeting (Chemistry)
 
 ## Changelog
 
