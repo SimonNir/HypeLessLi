@@ -11,7 +11,7 @@ NOTE: This is primarily the development side; for the most reliable public code,
 
 1. **Clone the Repo**
    - In your desired download location:
-     'git clone https://github.com/SimonNir/HypeLessLi.git'
+     `git clone https://github.com/SimonNir/HypeLessLi.git`
 
 3. **Open Chrome Extensions Page**
    - In Chrome, go to:  
