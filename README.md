@@ -7,21 +7,22 @@ NOTE: This is primarily the development side; for the most reliable public code,
 
 ---
 
-## Installation (from `HypeLessLi.zip`)
+## Installation 
 
-1. **Download & Extract**
-   - Download `HypeLessLi.zip` and extract it to a folder on your computer.
+1. **Clone the Repo**
+   - In your desired download location:
+     'git clone https://github.com/SimonNir/HypeLessLi.git'
 
-2. **Open Chrome Extensions Page**
+3. **Open Chrome Extensions Page**
    - In Chrome, go to:  
      `chrome://extensions/`
 
-3. **Enable Developer Mode**
+4. **Enable Developer Mode**
    - Turn on the **Developer mode** switch in the top-right corner.
 
-4. **Load the Extension**
+5. **Load the Extension**
    - Click **Load unpacked**.
-   - Select the extracted `HypeLessLi` folder.
+   - Select the folder containing the cloned files.
    - HypeLessLi will now appear in your extensions list.
 
 ---
