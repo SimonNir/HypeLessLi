@@ -1,4 +1,4 @@
-# HypeLessLi — Chrome Extension
+# HypeLessLi - Extension
 
 HypeLessLi helps you critically read scientific texts by highlighting hype-like, subjective, promotional, and vague terms in **yellow**.  
 It also provides a **collapsible sidebar** with explanations, counts, and navigation through all occurrences.
