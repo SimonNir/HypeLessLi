@@ -10,7 +10,7 @@ NOTE: This is primarily the development side; for the most reliable public code,
 ## Installation 
 
 1. **Clone the Repo**
-   - In your desired download location:
+   - In your desired download location, open the terminal and type:
      `git clone https://github.com/SimonNir/HypeLessLi.git`
 
 3. **Open Chrome Extensions Page**
