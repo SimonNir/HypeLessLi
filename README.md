@@ -3,7 +3,7 @@
 HypeLessLi helps you critically read scientific texts by highlighting hype-like, subjective, promotional, and vague terms in **yellow**.  
 It also provides a **collapsible sidebar** with explanations, counts, and navigation through all occurrences.
 
-NOTE: This is primarily the development side; for the most reliable public code, refer to the published version at [https://zenodo.org/records/16814574 ](https://zenodo.org/records/16946920)
+NOTE: This is primarily the development side; for the most reliable public code, refer to the published version at https://zenodo.org/records/16814574 
 
 ---
 
@@ -13,14 +13,14 @@ NOTE: This is primarily the development side; for the most reliable public code,
    - In your desired download location, open the terminal and type:  
      `git clone https://github.com/SimonNir/HypeLessLi.git`
 
-3. **Open Chrome Extensions Page**
+2. **Open Chrome Extensions Page**
    - In Chrome, go to:  
      `chrome://extensions/`
 
-4. **Enable Developer Mode**
+3. **Enable Developer Mode**
    - Turn on the **Developer mode** switch in the top-right corner.
 
-5. **Load the Extension**
+4. **Load the Extension**
    - Click **Load unpacked**.
    - Select the folder containing the cloned files.
    - HypeLessLi will now appear in your extensions list.
@@ -29,21 +29,20 @@ NOTE: This is primarily the development side; for the most reliable public code,
 
 ## How to Use
 
-1. **Open a webpage** with scientific writing.
-2. HypeLessLi will:
-   - Highlight hype/subjective terms in **yellow**.
-   - Show them in the **sidebar** with:
-     - The term itself
-     - Number of occurrences
-     - Explanation of why it’s flagged
-3. **Navigation**
-   - Click a term in the sidebar → jump to the next occurrence.
-   - Click again → cycle through all occurrences.
-   - Hover over a term → preview all matches in **light orange**.
-4. **Collapse / Reopen**
-   - Click the arrow (`Hide`) to hide the sidebar.
-   - A small **“HypeLessLi” button** appears in the bottom-right.
-   - Click it to reopen the sidebar.
+1. **Navigate to a webpage** with scientific writing.
+2. **The extension highlights hype terms automatically** with the sidebar minimized.
+3. **Use the extension popup** (click the HypeLessLi icon in your browser toolbar) to:
+   - Toggle highlighting on/off globally
+   - Show/hide the sidebar
+   - Access help information
+4. **Alternatively, click the floating 📝 button** (bottom-right) to show the sidebar.
+5. **In the sidebar** you can:
+   - See all flagged terms with counts and explanations
+   - Click a term to jump to the next occurrence  
+   - Click again to cycle through all occurrences
+   - Hover over a term to preview all matches in light orange
+6. **Resize the sidebar** by dragging its left edge.
+7. **Hover over highlighted words** to see explanations in a tooltip.
 
 ---
 
@@ -83,6 +82,11 @@ HypeLessLi encourages **clear, precise, and evidence-based** scientific communic
 
 HypeLessLi has been updated with the following improvements over the original version:
 
+### Manual Activation
+- Extension now only runs when you **click the extension icon** in the browser toolbar.
+- No longer automatically activates on every page load.
+- Prevents unwanted highlighting on non-scientific content.
+
 ### Dark Mode
 - Automatically adapts to system settings (`prefers-color-scheme: dark`).
 - Uses darker sidebar and tooltip styles for readability.
@@ -105,10 +109,10 @@ HypeLessLi has been updated with the following improvements over the original ve
 
 ### Exceptions to Reduce False Positives
 - Added an **exceptions list** in `terms.js`.
-- Example: *“benchmark test”*, *“unique identifier”*, *“extreme value theory”*, etc., will **not** be flagged.
+- Example: *"benchmark test"*, *"unique identifier"*, *"extreme value theory"*, etc., will **not** be flagged.
 
 ### Visible Text Only
-- Fixed bug where hidden metadata or SEO text caused **false matches** (e.g., “best (1)”).
+- Fixed bug where hidden metadata or SEO text caused **false matches** (e.g., "best (1)").
 - Now scans only **visible text** (ignores `display:none`, `visibility:hidden`, and `aria-hidden`).
 
 ---
@@ -118,6 +122,7 @@ HypeLessLi has been updated with the following improvements over the original ve
 - Works best on **visible webpage text** (not PDFs).
 - Uses keyword matching, so borderline cases may still appear.
 - Term list and exceptions can be expanded in `terms.js`.
+- Must be manually activated on each page by clicking the extension icon.
 
 ---
 
@@ -127,6 +132,13 @@ Dr. Xhoela Bame, Dr. Gjylije Hoti, Dr. Adibe Kingsley Mbachu, Dr. Vasilis Nikola
 The Li is short for Lindau, as the idea was born out of a workshop at the 74th Lindau Nobel Laureate Meeting (Chemistry)
 
 ## Changelog
+
+### v3.1
+- **Smart contrast-aware highlighting**: Highlights automatically adjust color based on text/background for better visibility.
+- **Polished popup interface**: Clean, modern popup replaces the floating button, with toggle switches and action buttons.
+- **Auto-highlighting with minimized sidebar**: Extension now highlights by default with sidebar hidden - no more manual activation needed.
+- **Improved floating button**: More subtle, modern design with emoji icon and smooth animations.
+- **Enhanced user experience**: Better state management, smoother interactions, and more intuitive controls.
 
 ### v3
 - Added filtering for **visible text only** (fixes phantom matches from hidden metadata).
@@ -140,9 +152,8 @@ The Li is short for Lindau, as the idea was born out of a workshop at the 74th L
 
 ### v2
 - Sidebar can now be **collapsed/reopened**.
-- Added **floating “H” button**.
+- Added **floating "H" button**.
 - Minor bugfixes
 
 ### v1
 - Initial release with basic hype term highlighting and sidebar counts.
-

@@ -1,11 +1,15 @@
 {
   "manifest_version": 3,
   "name": "HypeLessLi",
-  "version": "3",
+  "version": "3.1",
   "description": "Highlights hype, subjective, vague, and exaggerated language in scientific or professional writing.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
-    "default_title": "HypeLessLi v3"
+    "default_title": "HypeLessLi - Toggle highlighting",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {

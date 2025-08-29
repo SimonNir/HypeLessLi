@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 240px;
+      padding: 0;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #ffffff;
+      color: #333;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #ffca28 0%, #ffc107 100%);
+      color: #333;
+      padding: 16px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .content {
+      padding: 16px;
+    }
+    
+    .toggle-section {
+      margin-bottom: 20px;
+    }
+    
+    .toggle-label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+      margin-right: 10px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.3s ease;
+      border-radius: 28px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s ease;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    input:checked + .slider {
+      background-color: #ffca28;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    
+    .status-text {
+      font-size: 12px;
+      color: #666;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    .divider {
+      height: 1px;
+      background: #eee;
+      margin: 16px 0;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      text-align: left;
+      background: #f8f9fa;
+      color: #333;
+      border: 1px solid #e9ecef;
+    }
+    
+    .btn:hover {
+      background: #e9ecef;
+      transform: translateY(-1px);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn.primary {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+    
+    .btn.primary:hover {
+      background: #0056b3;
+      border-color: #0056b3;
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .footer {
+      padding: 12px 16px;
+      background: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+      text-align: center;
+      font-size: 11px;
+      color: #666;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #2d3748;
+        color: #e2e8f0;
+      }
+      
+      .header {
+        background: linear-gradient(135deg, #d69e2e 0%, #b7791f 100%);
+        color: #1a202c;
+      }
+      
+      .btn {
+        background: #4a5568;
+        color: #e2e8f0;
+        border-color: #2d3748;
+      }
+      
+      .btn:hover {
+        background: #2d3748;
+      }
+      
+      .footer {
+        background: #1a202c;
+        border-color: #4a5568;
+        color: #a0aec0;
+      }
+      
+      .divider {
+        background: #4a5568;
+      }
+      
+      .status-text {
+        color: #a0aec0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    HypeLessLi
+  </div>
+  
+  <div class="content">
+    <div class="toggle-section">
+      <label class="toggle-label">Extension Status</label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="extensionToggle">
+        <span class="slider"></span>
+      </label>
+      <span class="status-text" id="statusText">Loading...</span>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <div class="action-buttons">
+      <button class="btn primary" id="sidebarToggle" disabled>
+        📋 Toggle Sidebar
+      </button>
+      <button class="btn" id="helpBtn">
+        ❓ Help & Info  
+      </button>
+    </div>
+  </div>
+  
+  <div class="footer">
+    v3.2 • Click to toggle highlighting
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
