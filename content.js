@@ -212,7 +212,7 @@
     const totalCount = [...termCounts.values()].reduce((a, b) => a + b, 0);
     sidebar.innerHTML = `
       <div id="hypeless-header">
-        <span>HypeLessLi v3.2 (${totalCount} found)</span>
+        <span>HypeLessLi v3.1 (${totalCount} found)</span>
         <div>
           <button id="hypeless-help">Info</button>
           <button id="hypeless-toggle">Hide</button>
@@ -406,20 +406,25 @@
   if (chrome.runtime && chrome.runtime.onMessage) {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.type === 'stateChanged') {
+        // No response needed
         toggleExtension(message.enabled);
-      } else if (message.type === 'toggleSidebar' && elements.sidebar && elements.floatBtn) {
-        const isCollapsed = elements.sidebar.classList.contains('collapsed');
-        if (isCollapsed) {
-          elements.sidebar.classList.remove('collapsed');
-          elements.floatBtn.style.display = 'none';
-          isSidebarVisible = true;
-        } else {
-          elements.sidebar.classList.add('collapsed');
-          elements.floatBtn.style.display = 'block';
-          isSidebarVisible = false;
+      } else if (message.type === 'toggleSidebar') {
+        // Only act if UI exists; otherwise ignore silently
+        if (elements.sidebar && elements.floatBtn) {
+          const isCollapsed = elements.sidebar.classList.contains('collapsed');
+          if (isCollapsed) {
+            elements.sidebar.classList.remove('collapsed');
+            elements.floatBtn.style.display = 'none';
+            isSidebarVisible = true;
+          } else {
+            elements.sidebar.classList.add('collapsed');
+            elements.floatBtn.style.display = 'block';
+            isSidebarVisible = false;
+          }
         }
       }
-      return true;
+      // IMPORTANT: Do NOT return true unless you will call sendResponse later.
+      // We are not sending any response from the content script, so we simply return undefined.
     });
   }
 })();

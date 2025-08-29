@@ -48,14 +48,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
   else if (message.type === 'toggleSidebar') {
-    // Get current active tab and send message
-    chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
-      if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'toggleSidebar' }).catch(e => {
-          console.error('Failed to toggle sidebar:', e);
-        });
-      }
+    chrome.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+      const tab = tabs && tabs[0];
+      if (!tab || !tab.id) return;
+
+      // Only try to message tabs where content scripts can run
+      const url = tab.url || '';
+      if (!/^https?:|^file:|^ftp:/i.test(url)) return;
+
+      chrome.tabs.sendMessage(tab.id, { type: 'toggleSidebar' }).catch(() => {
+        // Ignore tabs without a receiving content script
+      });
     });
-    // Don't need to send response for this one
+    // No sendResponse here, so do NOT return true.
   }
 });
