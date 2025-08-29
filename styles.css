@@ -7,26 +7,17 @@
   max-width: 500px;
   min-width: 180px;
   height: 100%;
-  background: #f9f9f9;
-  border-left: 2px solid #ccc;
+  background: #222;       /* always dark */
+  color: #eee;            /* mostly light text */
+  border-left: 2px solid #444;
   font-family: Arial, sans-serif;
   font-size: 14px;
-  color: #222;
   z-index: 999999;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
   overflow: auto;
   resize: none; /* disable native handle */
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  #hypeless-sidebar {
-    background: #222;
-    color: #eee;
-    border-left: 2px solid #444;
-  }
 }
 
 /* Collapsed state */
@@ -36,17 +27,28 @@
 
 /* Sidebar header */
 #hypeless-header {
-  background: #ddd;
+  background: #333;       /* dark header */
   padding: 8px;
   font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #eee;            /* light text in buttons too */
 }
-@media (prefers-color-scheme: dark) {
-  #hypeless-header {
-    background: #333;
-  }
+
+/* Header buttons (Info / Hide) */
+#hypeless-header button {
+  background: #eee;       /* light background */
+  color: #222;            /* dark text */
+  border: 1px solid #555;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#hypeless-header button:hover {
+  background: #ddd;
 }
 
 /* Sidebar content */
@@ -82,17 +84,17 @@
   background: #ffc107;
 }
 
-/* Highlighted text */
+/* Highlighted text - use per-element CSS variables set by content.js */
 .hypeless-highlight {
-  background: yellow;
+  background: var(--highlight-normal, yellow);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 .hypeless-highlight.hypeless-preview {
-  background: orange;
+  background: var(--highlight-preview, orange);
 }
 .hypeless-highlight.hypeless-focus {
-  background: red;
+  background: var(--highlight-focus, red);
 }
 
 /* Tooltip */
@@ -108,12 +110,6 @@
   pointer-events: none;
   max-width: 240px;
 }
-@media (prefers-color-scheme: dark) {
-  #hypeless-tooltip {
-    background: #eee;
-    color: #222;
-  }
-}
 
 /* Help popup */
 #hypeless-help-popup {
@@ -124,19 +120,13 @@
   right: 10px;
   padding: 10px;
   font-size: 13px;
-  background: #fff;
-  border: 1px solid #ccc;
+  background: #222;
+  border: 1px solid #444;
+  color: #eee;
   z-index: 999999;
 }
 #hypeless-help-popup.visible {
   display: block;
-}
-@media (prefers-color-scheme: dark) {
-  #hypeless-help-popup {
-    background: #222;
-    border: 1px solid #444;
-    color: #eee;
-  }
 }
 
 /* --- Custom resizer handle --- */
@@ -147,9 +137,9 @@
   width: 10px;
   height: 100%;
   cursor: ew-resize;
-  background: #ddd;
-  border-left: 1px solid #bbb;
-  border-right: 1px solid #bbb;
+  background: #333;
+  border-left: 1px solid #444;
+  border-right: 1px solid #444;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,17 +148,7 @@
   content: '⋮';
   writing-mode: vertical-rl;
   font-size: 12px;
-  color: #666;
-}
-@media (prefers-color-scheme: dark) {
-  #hypeless-resizer {
-    background: #333;
-    border-left: 1px solid #444;
-    border-right: 1px solid #444;
-  }
-  #hypeless-resizer::after {
-    color: #aaa;
-  }
+  color: #aaa;
 }
 
 #hypeless-sidebar.resizing,

@@ -86,31 +86,38 @@
   }
 
   function getContrastingHighlightColor(element) {
-    const computedStyle = window.getComputedStyle(element.parentElement);
-    const backgroundColor = computedStyle.backgroundColor;
-    const textColor = computedStyle.color;
-    
-    // Parse RGB values
-    const parseRGB = (color) => {
-      if (color === 'transparent' || color === 'rgba(0, 0, 0, 0)') {
-        // Check parent elements for background
-        let parent = element.parentElement;
-        while (parent && parent !== document.body) {
-          const parentBg = window.getComputedStyle(parent).backgroundColor;
-          if (parentBg !== 'transparent' && parentBg !== 'rgba(0, 0, 0, 0)') {
-            return parseRGB(parentBg);
-          }
-          parent = parent.parentElement;
+    // Pick the effective text color where the highlight sits (fall back to parent colors).
+    let target = element || document.body;
+    let textColor = window.getComputedStyle(target).color;
+
+    if (!textColor || textColor === 'transparent' || textColor === 'rgba(0, 0, 0, 0)') {
+      let parent = target.parentElement;
+      while (parent && parent !== document.body) {
+        const pColor = window.getComputedStyle(parent).color;
+        if (pColor && pColor !== 'transparent' && pColor !== 'rgba(0, 0, 0, 0)') {
+          textColor = pColor;
+          break;
         }
-        return [255, 255, 255]; // Default to white
+        parent = parent.parentElement;
       }
-      
-      const match = color.match(/rgba?\(([^)]+)\)/);
-      if (match) {
-        return match[1].split(',').map(v => parseInt(v.trim()));
+      if (!textColor) textColor = 'rgb(0,0,0)'; // default to black
+    }
+
+    // Parse "rgb(...)" or hex "#..." into [r,g,b]
+    const parseRGB = (color) => {
+      if (!color) return [0,0,0];
+      const rgbMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+      if (rgbMatch) return [parseInt(rgbMatch[1],10), parseInt(rgbMatch[2],10), parseInt(rgbMatch[3],10)];
+      const hexMatch = color.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+      if (hexMatch) {
+        let hex = hexMatch[1];
+        if (hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
+        return [parseInt(hex.substr(0,2),16), parseInt(hex.substr(2,2),16), parseInt(hex.substr(4,2),16)];
       }
-      return [255, 255, 255]; // Default fallback
+      return [0,0,0];
     };
+
+    const [r, g, b] = parseRGB(textColor);
 
     const getLuminance = (r, g, b) => {
       const [rs, gs, bs] = [r, g, b].map(c => {
@@ -120,29 +127,25 @@
       return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
     };
 
-    // Determine if background is dark or light
-    const [bgR, bgG, bgB] = parseRGB(backgroundColor);
-    const bgLuminance = getLuminance(bgR, bgG, bgB);
-    const [textR, textG, textB] = parseRGB(textColor);
-    const textLuminance = getLuminance(textR, textG, textB);
-    
-    // Use text luminance as primary indicator, fallback to background
-    const isDarkBackground = (textLuminance > 0.5) || (bgLuminance < 0.5);
-    
-    if (isDarkBackground) {
-      // Dark background - use bright highlighting
-      return {
-        normal: 'rgba(255, 235, 59, 0.8)',    // Bright yellow
-        preview: 'rgba(255, 152, 0, 0.9)',    // Bright orange
-        focus: 'rgba(244, 67, 54, 0.9)'       // Bright red
-      };
+    const textLuminance = getLuminance(r, g, b);
+
+    // YOUR REQUIREMENT:
+    // - If the *text* is dark (low luminance) => use yellow highlights.
+    // - If the *text* is light (high luminance, e.g. white text on dark bg) => use purple highlights.
+    if (textLuminance < 0.5) {
+        // dark text -> lighter warm highlight
+        return {
+            normal: '#FFDD33',   // lighter gold/yellow
+            preview: '#FFAA33',  // lighter orange, pops
+            focus: '#FF5533'     // lighter red, strong focus
+        };
     } else {
-      // Light background - use standard highlighting
-      return {
-        normal: 'rgba(255, 235, 59, 0.7)',    // Yellow
-        preview: 'rgba(255, 152, 0, 0.8)',    // Orange  
-        focus: 'rgba(244, 67, 54, 0.8)'       // Red
-      };
+        // light text -> darker warm highlight
+        return {
+            normal: '#CC9900',   // dark gold
+            preview: '#FF6600',  // rich orange, pops
+            focus: '#CC3300'     // brick red, strong focus
+        };
     }
   }
 

@@ -134,11 +134,11 @@ The Li is short for Lindau, as the idea was born out of a workshop at the 74th L
 ## Changelog
 
 ### v3.1
-- **Smart contrast-aware highlighting**: Highlights automatically adjust color based on text/background for better visibility.
-- **Polished popup interface**: Clean, modern popup replaces the floating button, with toggle switches and action buttons.
-- **Auto-highlighting with minimized sidebar**: Extension now highlights by default with sidebar hidden - no more manual activation needed.
-- **Improved floating button**: More subtle, modern design with emoji icon and smooth animations.
-- **Enhanced user experience**: Better state management, smoother interactions, and more intuitive controls.
+- Added smart **contrast-aware highlighting** for better visibility.  
+- Polished **popup interface** with toggle switches and action buttons.  
+- Hid sidebar by default, retaining auto-highlighting  
+- Improved **floating button** with smooth animations.  
+- Unified **dark/light modes** into a single consistent interface that always contrasts well.
 
 ### v3
 - Added filtering for **visible text only** (fixes phantom matches from hidden metadata).
