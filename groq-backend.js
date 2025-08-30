@@ -11,20 +11,26 @@ app.post('/ask-groq', async (req, res) => {
   const { question } = req.body;
   console.log('[ask-groq] Received question:', question);
 
+  // System prompt for Groq
+  const systemPrompt = `You are HypeLessLi, an assistant that helps users critically read scientific texts by highlighting hype-like, subjective, promotional, and vague terms in yellow. You provide clear, concise explanations for why a term is considered hype, and always suggest less hyped, more objective alternatives for any term or phrase the user asks about. If the user does not specify, always include a suggestion for a more objective or neutral alternative.`;
+
   try {
     console.log('[ask-groq] Sending request to Groq API...');
     const groqRes = await axios.post(
-    'https://api.groq.com/openai/v1/chat/completions',
-    {
+      'https://api.groq.com/openai/v1/chat/completions',
+      {
         model: 'llama-3.3-70b-versatile',
-        messages: [{ role: 'user', content: question }]
-    },
-    {
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: question }
+        ]
+      },
+      {
         headers: {
-        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-        'Content-Type': 'application/json'
+          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
         }
-    }
+      }
     );
     console.log('[ask-groq] Groq API response status:', groqRes.status);
     if (groqRes.data && groqRes.data.choices && groqRes.data.choices[0]) {
