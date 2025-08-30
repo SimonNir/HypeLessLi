@@ -216,9 +216,9 @@
     sidebar.innerHTML = `
       <div id="hypeless-header">
         <span>HypeLessLi v3.1 (${totalCount} found)</span>
-        <div>
-          <button id="hypeless-help">Info</button>
-          <button id="hypeless-toggle">Hide</button>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:4px;">
+          <button id="hypeless-help" style="flex:1 1 0;min-width:0;padding:4px 8px;">Info</button>
+          <button id="hypeless-toggle" style="flex:1 1 0;min-width:0;padding:4px 8px;">Hide</button>
         </div>
       </div>
       <div id="hypeless-content">${itemsHTML}</div>
@@ -233,7 +233,7 @@
       <div id="hypeless-ai-qa" style="padding:12px 8px 8px 8px; border-top:1px solid #eee; margin-top:8px;">
         <input id="hypeless-ai-input" type="text" placeholder="Ask about a term..." style="width:calc(100% - 70px);padding:4px 8px;color:#fff;background:#222;border:1px solid #444;" />
         <button id="hypeless-ai-btn" style="width:56px;padding:4px 0;margin-left:4px;">Ask AI</button>
-  <div id="hypeless-ai-answer" style="margin-top:8px;font-size:15px;color:#fff;"></div>
+        <div id="hypeless-ai-answer" style="margin-top:8px;font-size:15px;color:#fff;"></div>
       </div>
     `;
     document.body.appendChild(sidebar);
