@@ -8,8 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// In-memory history of last 12 Q&A
-const HISTORY_LIMIT = 12;
+// In-memory history of last 3 Q&A
+const HISTORY_LIMIT = 3;
 const aiHistory = [];
 
 app.post('/ask-groq', async (req, res) => {
