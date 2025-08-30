@@ -230,6 +230,11 @@
         - Resize sidebar by dragging its edge.<br>
         - Toggle with extension popup or floating button.<br>
       </div>
+      <div id="hypeless-ai-qa" style="padding:12px 8px 8px 8px; border-top:1px solid #eee; margin-top:8px;">
+        <input id="hypeless-ai-input" type="text" placeholder="Ask about a term..." style="width:calc(100% - 70px);padding:4px 8px;" />
+        <button id="hypeless-ai-btn" style="width:56px;padding:4px 0;margin-left:4px;">Ask AI</button>
+        <div id="hypeless-ai-answer" style="margin-top:8px;font-size:13px;color:#444;"></div>
+      </div>
     `;
     document.body.appendChild(sidebar);
 
@@ -258,6 +263,43 @@
   }
 
   function setupInteractions(sidebar, floatBtn, matchesByTerm, tooltip) {
+    // --- AI Q&A logic ---
+    const aiInput = sidebar.querySelector('#hypeless-ai-input');
+    const aiBtn = sidebar.querySelector('#hypeless-ai-btn');
+    const aiAnswer = sidebar.querySelector('#hypeless-ai-answer');
+
+    // On highlight click, pre-fill the input with the term
+    document.body.addEventListener('click', e => {
+      if (e.target.classList && e.target.classList.contains('hypeless-highlight')) {
+        const term = e.target.getAttribute('data-term');
+        const expl = e.target.getAttribute('data-expl');
+        if (aiInput) {
+          aiInput.value = `What does "${term}" mean in academic writing? ${expl ? 'Explanation: ' + expl : ''}`;
+          aiInput.focus();
+        }
+      }
+    });
+
+    // On AI button click, ask Groq
+    if (aiBtn && aiInput && aiAnswer) {
+      aiBtn.addEventListener('click', async () => {
+        const question = aiInput.value.trim();
+        if (!question) return;
+        aiBtn.disabled = true;
+        aiAnswer.textContent = 'Thinking...';
+        try {
+          const answer = await askGroq(question);
+          aiAnswer.textContent = answer;
+        } catch (err) {
+          aiAnswer.textContent = 'Error contacting AI.';
+        }
+        aiBtn.disabled = false;
+      });
+      // Enter key submits
+      aiInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') aiBtn.click();
+      });
+    }
     const termPositions = new Map();
     for (const term of matchesByTerm.keys()) termPositions.set(term, 0);
 
