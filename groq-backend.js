@@ -3,9 +3,13 @@ const cors = require('cors');
 const axios = require('axios');
 require('dotenv').config();
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// In-memory history of last 7 Q&A
+const aiHistory = [];
 
 app.post('/ask-groq', async (req, res) => {
   const { question } = req.body;
@@ -33,16 +37,26 @@ app.post('/ask-groq', async (req, res) => {
       }
     );
     console.log('[ask-groq] Groq API response status:', groqRes.status);
+    let answer = '';
     if (groqRes.data && groqRes.data.choices && groqRes.data.choices[0]) {
-      console.log('[ask-groq] Groq API answer:', groqRes.data.choices[0].message.content.slice(0, 100), '...');
+      answer = groqRes.data.choices[0].message.content;
+      console.log('[ask-groq] Groq API answer:', answer.slice(0, 100), '...');
     } else {
       console.log('[ask-groq] Groq API response missing expected data:', groqRes.data);
+      answer = '[No answer returned]';
     }
-    res.json({ answer: groqRes.data.choices[0].message.content });
+    // Add to history (keep only last 7)
+    aiHistory.push({ question, answer, ts: new Date().toISOString() });
+    if (aiHistory.length > 7) aiHistory.shift();
+    res.json({ answer });
   } catch (err) {
     console.error('[ask-groq] Error from Groq API:', err.response ? err.response.data : err.message);
     res.status(500).json({ error: 'Groq API error', details: err.message });
   }
+// Endpoint to get last 7 Q&A
+app.get('/ask-groq/history', (req, res) => {
+  res.json({ history: aiHistory });
+});
 });
 
 app.listen(3001, () => console.log('Groq backend running on port 3001'));
