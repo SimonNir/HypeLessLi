@@ -215,7 +215,7 @@
     const totalCount = [...termCounts.values()].reduce((a, b) => a + b, 0);
     sidebar.innerHTML = `
       <div id="hypeless-header">
-        <span>HypeLessLi v3.1 (${totalCount} found)</span>
+        <span>HypeLessLi v3.1 <br> (${totalCount} found)</span>
         <div style="display:flex;gap:6px;align-items:center;margin-top:4px;">
           <button id="hypeless-help" style="flex:1 1 0;min-width:0;padding:4px 8px;">Info</button>
           <button id="hypeless-toggle" style="flex:1 1 0;min-width:0;padding:4px 8px;">Hide</button>
