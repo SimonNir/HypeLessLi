@@ -215,10 +215,10 @@
     const totalCount = [...termCounts.values()].reduce((a, b) => a + b, 0);
     sidebar.innerHTML = `
       <div id="hypeless-header">
-        <span>HypeLessLi v3.1 (${totalCount} found)</span>
-        <div>
-          <button id="hypeless-help">Info</button>
-          <button id="hypeless-toggle">Hide</button>
+        <span>HypeLessLi v3.1 <br> (${totalCount} found)</span>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:4px;">
+          <button id="hypeless-help" style="flex:1 1 0;min-width:0;padding:4px 8px;">Info</button>
+          <button id="hypeless-toggle" style="flex:1 1 0;min-width:0;padding:4px 8px;">Hide</button>
         </div>
       </div>
       <div id="hypeless-content">${itemsHTML}</div>
@@ -229,6 +229,12 @@
         - Click a term in sidebar to jump to it.<br>
         - Resize sidebar by dragging its edge.<br>
         - Toggle with extension popup or floating button.<br>
+      </div>
+      <div id="hypeless-ai-qa" style="padding:12px 8px 8px 8px; border-top:1px solid #eee; margin-top:8px;">
+  <input id="hypeless-ai-input" type="text" placeholder="Ask about a term..." style="width:calc(100% - 70px);padding:4px 8px;color:#fff;background:#222;border:1px solid #444;" />
+  <button id="hypeless-ai-btn" style="width:56px;padding:4px 0;margin-left:4px;">Ask AI</button>
+  <div style="font-size:11px;color:#bbb;margin-top:2px;line-height:1.2;">AI Q&A requires<br>local server</div>
+  <div id="hypeless-ai-answer" style="margin-top:8px;font-size:15px;color:#fff;"></div>
       </div>
     `;
     document.body.appendChild(sidebar);
@@ -258,6 +264,43 @@
   }
 
   function setupInteractions(sidebar, floatBtn, matchesByTerm, tooltip) {
+    // --- AI Q&A logic ---
+    const aiInput = sidebar.querySelector('#hypeless-ai-input');
+    const aiBtn = sidebar.querySelector('#hypeless-ai-btn');
+    const aiAnswer = sidebar.querySelector('#hypeless-ai-answer');
+
+    // On highlight click, pre-fill the input with the term
+    document.body.addEventListener('click', e => {
+      if (e.target.classList && e.target.classList.contains('hypeless-highlight')) {
+        const term = e.target.getAttribute('data-term');
+        const expl = e.target.getAttribute('data-expl');
+        if (aiInput) {
+          aiInput.value = `What does "${term}" mean in academic writing? ${expl ? 'Explanation: ' + expl : ''}`;
+          aiInput.focus();
+        }
+      }
+    });
+
+    // On AI button click, ask Groq
+    if (aiBtn && aiInput && aiAnswer) {
+      aiBtn.addEventListener('click', async () => {
+        const question = aiInput.value.trim();
+        if (!question) return;
+        aiBtn.disabled = true;
+        aiAnswer.textContent = 'Thinking...';
+        try {
+          const answer = await askGroq(question);
+          aiAnswer.textContent = answer;
+        } catch (err) {
+          aiAnswer.textContent = 'Error contacting AI.';
+        }
+        aiBtn.disabled = false;
+      });
+      // Enter key submits
+      aiInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') aiBtn.click();
+      });
+    }
     const termPositions = new Map();
     for (const term of matchesByTerm.keys()) termPositions.set(term, 0);
 
@@ -404,6 +447,16 @@
       elements.tooltip.style.display = 'none';
     }
   }
+
+  async function askGroq(question) {
+  const response = await fetch('http://localhost:3001/ask-groq', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question })
+  });
+  const data = await response.json();
+  return data.answer;
+}
 
   // Listen for messages from background script
   if (chrome.runtime && chrome.runtime.onMessage) {

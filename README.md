@@ -126,6 +126,18 @@ HypeLessLi has been updated with the following improvements over the original ve
 
 ---
 
+
+## Experimental: AI Q&A (Optional)
+
+HypeLessLi includes an **experimental AI Q&A feature** in the sidebar, allowing you to ask questions about hype terms and get suggestions for more objective alternatives.
+
+**Note:**
+- This feature requires running a local backend server (see `groq-backend.js`) and a valid Groq API key (put into a local .env file).
+- If the backend is not running, the AI Q&A section will not function.
+- The main extension features work independently of the AI Q&A.
+
+---
+
 ## Authors
 Dr. Xhoela Bame, Dr. Gjylije Hoti, Dr. Adibe Kingsley Mbachu, Dr. Vasilis Nikolaou, Simon Nirenberg, Klara Krmpotic, Dr. Christian Kuttner, Dr. Sudha Shankar (in alphabetical order)
 
