@@ -405,6 +405,16 @@
     }
   }
 
+  async function askGroq(question) {
+  const response = await fetch('http://localhost:3001/ask-groq', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question })
+  });
+  const data = await response.json();
+  return data.answer;
+}
+
   // Listen for messages from background script
   if (chrome.runtime && chrome.runtime.onMessage) {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
