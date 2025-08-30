@@ -18,16 +18,23 @@ app.post('/ask-groq', async (req, res) => {
   // System prompt for Groq
   const systemPrompt = `You are HypeLessLi, an assistant that helps users critically read scientific texts by highlighting hype-like, subjective, promotional, and vague terms. You provide clear, concise explanations for why a term is considered hype, and always suggest less hyped, more objective alternatives for any term or phrase the user asks about. If the user does not specify, always include a suggestion for a more objective or neutral alternative.`;
 
+  // Build chat history for Groq
+  const chatHistory = [
+    { role: 'system', content: systemPrompt },
+    ...aiHistory.flatMap(pair => [
+      { role: 'user', content: pair.question },
+      { role: 'assistant', content: pair.answer }
+    ]),
+    { role: 'user', content: question }
+  ];
+
   try {
     console.log('[ask-groq] Sending request to Groq API...');
     const groqRes = await axios.post(
       'https://api.groq.com/openai/v1/chat/completions',
       {
         model: 'llama-3.3-70b-versatile',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: question }
-        ]
+        messages: chatHistory
       },
       {
         headers: {
