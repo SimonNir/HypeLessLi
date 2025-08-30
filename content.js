@@ -231,7 +231,7 @@
         - Toggle with extension popup or floating button.<br>
       </div>
       <div id="hypeless-ai-qa" style="padding:12px 8px 8px 8px; border-top:1px solid #eee; margin-top:8px;">
-        <input id="hypeless-ai-input" type="text" placeholder="Ask about a term..." style="width:calc(100% - 70px);padding:4px 8px;" />
+        <input id="hypeless-ai-input" type="text" placeholder="Ask about a term..." style="width:calc(100% - 70px);padding:4px 8px;color:#fff;background:#222;border:1px solid #444;" />
         <button id="hypeless-ai-btn" style="width:56px;padding:4px 0;margin-left:4px;">Ask AI</button>
         <div id="hypeless-ai-answer" style="margin-top:8px;font-size:13px;color:#444;"></div>
       </div>
