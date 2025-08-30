@@ -1,9 +1,19 @@
 {
   "manifest_version": 3,
   "name": "HypeLessLi",
-  "version": "3.1",
-  "description": "Highlights hype, subjective, vague, and exaggerated language in scientific or professional writing.",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "version": "3.2",
+  "description": "Highlights hype language in scientific writing. Works with Overleaf editors and provides AI-powered suggestions for improvement.",
+  "permissions": [
+    "activeTab", 
+    "scripting", 
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*.overleaf.com/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
   "action": {
     "default_title": "HypeLessLi - Toggle highlighting",
     "default_popup": "popup.html"
@@ -18,5 +28,6 @@
       "css": ["styles.css"],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "web_accessible_resources": []
 }

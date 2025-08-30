@@ -1,3 +1,7 @@
+/* ==============================================
+   EXISTING STYLES (for standard web pages)
+   ============================================== */
+
 /* Sidebar container */
 #hypeless-sidebar {
   position: fixed;
@@ -45,6 +49,7 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 12px;
+  margin-left: 4px;
 }
 
 #hypeless-header button:hover {
@@ -61,6 +66,9 @@
 .hypeless-item {
   margin-bottom: 10px;
   cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 .hypeless-item:hover {
   background: rgba(255, 200, 0, 0.3);
@@ -79,9 +87,12 @@
   font-size: 16px;
   cursor: pointer;
   display: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 #hypeless-float-btn:hover {
   background: #ffc107;
+  transform: scale(1.1);
 }
 
 /* Highlighted text - use per-element CSS variables set by content.js */
@@ -109,6 +120,7 @@
   z-index: 999999;
   pointer-events: none;
   max-width: 240px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 /* Help popup */
@@ -124,6 +136,8 @@
   border: 1px solid #444;
   color: #eee;
   z-index: 999999;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 #hypeless-help-popup.visible {
   display: block;
@@ -155,4 +169,295 @@
 #hypeless-sidebar.resizing * {
   cursor: ew-resize !important;
   user-select: none !important;
+}
+
+/* ==============================================
+   OVERLEAF-SPECIFIC STYLES
+   ============================================== */
+
+/* Overleaf sidebar - higher z-index to appear above Overleaf UI */
+#hypeless-overleaf-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  max-width: 500px;
+  min-width: 200px;
+  height: 100%;
+  background: #1e1e1e;
+  color: #e0e0e0;
+  border-left: 2px solid #404040;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+  font-size: 13px;
+  z-index: 9999999; /* Higher than Overleaf's z-index */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.3);
+}
+
+#hypeless-overleaf-sidebar.collapsed {
+  transform: translateX(100%);
+}
+
+/* Overleaf sidebar header with AI button */
+#hypeless-overleaf-sidebar #hypeless-header {
+  background: #2a2a2a;
+  padding: 12px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #404040;
+  color: #e0e0e0;
+}
+
+#hypeless-overleaf-sidebar #hypeless-header button {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 500;
+  margin-left: 4px;
+  transition: all 0.2s ease;
+}
+
+#hypeless-overleaf-sidebar #hypeless-header button:hover {
+  background: #357abd;
+  transform: translateY(-1px);
+}
+
+#hypeless-overleaf-sidebar #hypeless-header button#hypeless-suggestions {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+#hypeless-overleaf-sidebar #hypeless-header button#hypeless-suggestions:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+/* AI Suggestions Panel */
+#hypeless-suggestions-content {
+  flex: 1;
+  padding: 12px;
+  background: #252525;
+  border-top: 1px solid #404040;
+  display: none;
+  flex-direction: column;
+}
+
+.suggestions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #404040;
+}
+
+.suggestions-header h4 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 14px;
+}
+
+#close-suggestions {
+  background: #666;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#close-suggestions:hover {
+  background: #777;
+}
+
+.suggestions-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  background: #2a2a2a;
+  border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.suggestion-item:hover {
+  background: #333;
+  border-color: #4a90e2;
+}
+
+.suggestion-item strong {
+  color: #4a90e2;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Monaco Editor Highlighting */
+.hypeless-monaco-highlight {
+  background-color: rgba(255, 193, 7, 0.3) !important;
+  border-bottom: 2px solid #ffc107;
+}
+
+.monaco-editor .hypeless-monaco-highlight {
+  background-color: rgba(255, 193, 7, 0.25) !important;
+}
+
+/* ACE Editor Highlighting */
+.ace_marker-layer .hypeless-ace-highlight {
+  position: absolute;
+  background-color: rgba(255, 193, 7, 0.3);
+  border-bottom: 2px solid #ffc107;
+  border-radius: 2px;
+}
+
+/* CodeMirror Highlighting */
+.hypeless-cm-highlight {
+  background-color: rgba(255, 193, 7, 0.3);
+  border-bottom: 2px solid #ffc107;
+  border-radius: 2px;
+  padding: 1px 0;
+}
+
+/* Overleaf-specific float button positioning */
+body.overleaf #hypeless-float-btn {
+  bottom: 60px; /* Avoid Overleaf's bottom toolbar */
+  right: 15px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+body.overleaf #hypeless-float-btn:hover {
+  background: linear-gradient(135deg, #357abd 0%, #2a5a8a 100%);
+  transform: scale(1.05);
+}
+
+/* Overleaf content adjustments */
+#hypeless-overleaf-sidebar #hypeless-content {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  background: #1e1e1e;
+}
+
+#hypeless-overleaf-sidebar .hypeless-item {
+  background: #2a2a2a;
+  border: 1px solid #404040;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#hypeless-overleaf-sidebar .hypeless-item:hover {
+  background: #333;
+  border-color: #4a90e2;
+  transform: translateX(-2px);
+}
+
+#hypeless-overleaf-sidebar .hypeless-item b {
+  color: #ffc107;
+  font-size: 13px;
+}
+
+#hypeless-overleaf-sidebar .hypeless-item small {
+  color: #bbb;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* LaTeX-aware tooltip */
+#hypeless-tooltip.latex-context {
+  background: #2a2a2a;
+  border: 1px solid #4a90e2;
+  color: #e0e0e0;
+  font-family: monospace;
+  font-size: 11px;
+  max-width: 300px;
+}
+
+/* Dark theme for Overleaf integration */
+@media (prefers-color-scheme: dark) {
+  #hypeless-overleaf-sidebar {
+    background: #1a1a1a;
+    border-left-color: #333;
+  }
+  
+  #hypeless-overleaf-sidebar #hypeless-header {
+    background: #222;
+    border-bottom-color: #333;
+  }
+  
+  #hypeless-suggestions-content {
+    background: #1a1a1a;
+    border-top-color: #333;
+  }
+  
+  #hypeless-overleaf-sidebar .hypeless-item {
+    background: #222;
+    border-color: #333;
+  }
+  
+  #hypeless-overleaf-sidebar .hypeless-item:hover {
+    background: #2a2a2a;
+    border-color: #4a90e2;
+  }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1200px) {
+  #hypeless-overleaf-sidebar,
+  #hypeless-sidebar {
+    width: 240px;
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  #hypeless-overleaf-sidebar,
+  #hypeless-sidebar {
+    width: 100vw;
+    max-width: 100vw;
+  }
+}
+
+/* Animation for editor highlights */
+@keyframes hypeless-pulse {
+  0% { background-color: rgba(255, 193, 7, 0.6); }
+  50% { background-color: rgba(255, 193, 7, 0.3); }
+  100% { background-color: rgba(255, 193, 7, 0.6); }
+}
+
+.hypeless-monaco-highlight.hypeless-focus,
+.hypeless-ace-highlight.hypeless-focus,
+.hypeless-cm-highlight.hypeless-focus {
+  animation: hypeless-pulse 1s ease-in-out 3;
+}
+
+/* Loading states */
+.hypeless-loading {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #666;
+  border-radius: 50%;
+  border-top-color: #4a90e2;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

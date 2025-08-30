@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <style>
     body {
-      width: 240px;
+      width: 280px;
       padding: 0;
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -22,8 +22,47 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
+    .tabs {
+      display: flex;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      color: #666;
+      transition: all 0.2s ease;
+    }
+    
+    .tab.active {
+      background: #ffffff;
+      color: #333;
+      border-bottom: 2px solid #ffca28;
+    }
+    
+    .tab:hover:not(.active) {
+      background: #e9ecef;
+    }
+    
     .content {
       padding: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
     }
     
     .toggle-section {
@@ -143,6 +182,63 @@
       transform: none;
     }
     
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #ffca28;
+      box-shadow: 0 0 0 2px rgba(255, 202, 40, 0.2);
+    }
+    
+    select.form-control {
+      cursor: pointer;
+    }
+    
+    .api-status {
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 8px;
+      text-align: center;
+    }
+    
+    .api-status.connected {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .api-status.disconnected {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .api-status.testing {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+    
     .footer {
       padding: 12px 16px;
       background: #f8f9fa;
@@ -150,6 +246,16 @@
       text-align: center;
       font-size: 11px;
       color: #666;
+    }
+
+    .overleaf-notice {
+      background: #e3f2fd;
+      border: 1px solid #bbdefb;
+      border-radius: 4px;
+      padding: 8px;
+      font-size: 12px;
+      margin-bottom: 12px;
+      color: #1565c0;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -161,6 +267,25 @@
       .header {
         background: linear-gradient(135deg, #d69e2e 0%, #b7791f 100%);
         color: #1a202c;
+      }
+      
+      .tabs {
+        background: #4a5568;
+        border-color: #2d3748;
+      }
+      
+      .tab {
+        color: #a0aec0;
+      }
+      
+      .tab.active {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-bottom-color: #d69e2e;
+      }
+      
+      .tab:hover:not(.active) {
+        background: #2d3748;
       }
       
       .btn {
@@ -186,6 +311,27 @@
       .status-text {
         color: #a0aec0;
       }
+      
+      .form-control {
+        background: #4a5568;
+        border-color: #2d3748;
+        color: #e2e8f0;
+      }
+      
+      .form-control:focus {
+        border-color: #d69e2e;
+        box-shadow: 0 0 0 2px rgba(214, 158, 46, 0.2);
+      }
+      
+      .form-label {
+        color: #e2e8f0;
+      }
+      
+      .overleaf-notice {
+        background: #2a4a5c;
+        border-color: #1e3a5f;
+        color: #90cdf4;
+      }
     }
   </style>
 </head>
@@ -194,30 +340,119 @@
     HypeLessLi
   </div>
   
+  <div class="tabs">
+    <button class="tab active" data-tab="main">Main</button>
+    <button class="tab" data-tab="ai">AI Setup</button>
+    <button class="tab" data-tab="help">Help</button>
+  </div>
+  
   <div class="content">
-    <div class="toggle-section">
-      <label class="toggle-label">Extension Status</label>
-      <label class="toggle-switch">
-        <input type="checkbox" id="extensionToggle">
-        <span class="slider"></span>
-      </label>
-      <span class="status-text" id="statusText">Loading...</span>
+    <!-- Main Tab -->
+    <div class="tab-content active" id="main-tab">
+      <div class="overleaf-notice" id="overleaf-notice" style="display: none;">
+        Overleaf detected! Extension will highlight hype terms in your LaTeX editor.
+      </div>
+      
+      <div class="toggle-section">
+        <label class="toggle-label">Extension Status</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="extensionToggle">
+          <span class="slider"></span>
+        </label>
+        <span class="status-text" id="statusText">Loading...</span>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="action-buttons">
+        <button class="btn primary" id="sidebarToggle" disabled>
+          📋 Toggle Sidebar
+        </button>
+        <button class="btn" id="testHighlighting">
+          🔍 Test on Current Page
+        </button>
+      </div>
     </div>
     
-    <div class="divider"></div>
+    <!-- AI Setup Tab -->
+    <div class="tab-content" id="ai-tab">
+      <div class="form-group">
+        <label class="form-label">AI Provider</label>
+        <select class="form-control" id="aiProvider">
+          <option value="openai">OpenAI GPT</option>
+          <option value="anthropic">Anthropic Claude</option>
+          <option value="gemini">Google Gemini</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Model</label>
+        <select class="form-control" id="aiModel">
+          <option value="gpt-4">GPT-4</option>
+          <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">API Key</label>
+        <input type="password" class="form-control" id="apiKey" placeholder="Enter your API key">
+      </div>
+      
+      <div class="form-group">
+        <button class="btn" id="testAPI">Test Connection</button>
+        <div class="api-status disconnected" id="apiStatus">
+          Not configured
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Suggestion Style</label>
+        <select class="form-control" id="suggestionStyle">
+          <option value="conservative">Conservative (minor changes)</option>
+          <option value="moderate">Moderate (balanced approach)</option>
+          <option value="aggressive">Aggressive (major rewrites)</option>
+        </select>
+      </div>
+      
+      <button class="btn primary" id="saveAIConfig">Save Configuration</button>
+    </div>
     
-    <div class="action-buttons">
-      <button class="btn primary" id="sidebarToggle" disabled>
-        📋 Toggle Sidebar
-      </button>
-      <button class="btn" id="helpBtn">
-        ❓ Help & Info  
-      </button>
+    <!-- Help Tab -->
+    <div class="tab-content" id="help-tab">
+      <h3 style="margin-top: 0; font-size: 16px;">How to Use</h3>
+      
+      <div style="font-size: 13px; line-height: 1.5; margin-bottom: 16px;">
+        <strong>Regular Websites:</strong><br>
+        • Extension highlights hype terms automatically<br>
+        • Click sidebar items to navigate through matches<br>
+        • Hover over highlights for explanations
+      </div>
+      
+      <div style="font-size: 13px; line-height: 1.5; margin-bottom: 16px;">
+        <strong>Overleaf Integration:</strong><br>
+        • Works with ACE, Monaco, and CodeMirror editors<br>
+        • Highlights update as you type<br>
+        • LaTeX-aware (ignores commands)<br>
+        • AI suggestions available with API setup
+      </div>
+      
+      <div style="font-size: 13px; line-height: 1.5; margin-bottom: 16px;">
+        <strong>AI Features:</strong><br>
+        • Configure your preferred LLM in AI Setup tab<br>
+        • Get intelligent rewriting suggestions<br>
+        • Supports OpenAI, Anthropic, and Google APIs<br>
+        • Suggestions appear in dedicated panel
+      </div>
+      
+      <div class="divider"></div>
+      
+      <button class="btn" id="githubLink">📚 View Documentation</button>
+      <button class="btn" id="supportLink">🐛 Report Issues</button>
     </div>
   </div>
   
   <div class="footer">
-    v3.1 • Click to toggle highlighting
+    v3.2 • Enhanced for Overleaf & AI integration
   </div>
 
   <script src="popup.js"></script>
