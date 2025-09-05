@@ -3,7 +3,7 @@
 HypeLessLi helps you critically read scientific texts by highlighting hype-like, subjective, promotional, and vague terms in **yellow**.  
 It also provides a **collapsible sidebar** with explanations, counts, and navigation through all occurrences.
 
-NOTE: This is primarily the development side; for the most reliable public code, refer to the published version at https://zenodo.org/records/16814574 
+NOTE: This is primarily the development side; for the most reliable public code, refer to the published version at https://doi.org/10.5281/zenodo.16813943 
 
 ---
 
